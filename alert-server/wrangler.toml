@@ -1,0 +1,17 @@
+# ออมดิวะ — ตัวส่งแจ้งเตือนเข้ามือถือ (Cloudflare Workers แผนฟรี)
+name = "aomdiwa-alert"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+workers_dev = true
+preview_urls = false
+
+# 07:05 Thai time; 09:05 again in case the site's daily update ran late (the same day is never sent twice)
+[triggers]
+crons = ["5 0 * * *", "5 2 * * *"]
+
+[[kv_namespaces]]
+binding = "SUBS"
+id = "fa921709197b4637b89d85e4a217852a"
+
+[observability]
+enabled = true

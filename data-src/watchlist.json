@@ -1,0 +1,46 @@
+{
+  "note": "รายชื่อที่แอปเฝ้าดู — group: tech (เทคฯ/AI โตสูง) · future (ธีมอนาคต เสี่ยงสูง) · stable (บริษัทใหญ่มั่นคง) · bench (เทียบผลงานเท่านั้น ไม่เสนอซื้อ)",
+  "reviewed": "2026-10-03",
+  "tickers": [
+    { "sym": "NVDA", "name": "NVIDIA", "what": "ชิปประมวลผล AI", "group": "tech" },
+    { "sym": "GOOGL", "name": "Alphabet", "what": "Google ค้นหา คลาวด์ และ AI", "group": "tech" },
+    { "sym": "PLTR", "name": "Palantir", "what": "ซอฟต์แวร์วิเคราะห์ข้อมูลและ AI ให้รัฐและองค์กร", "group": "tech" },
+    { "sym": "RBRK", "name": "Rubrik", "what": "ระบบสำรองและกู้ข้อมูลกันโจมตีไซเบอร์", "group": "tech" },
+    { "sym": "MSFT", "name": "Microsoft", "what": "ซอฟต์แวร์ คลาวด์ Azure และ AI", "group": "tech" },
+    { "sym": "AMZN", "name": "Amazon", "what": "อีคอมเมิร์ซและคลาวด์ AWS", "group": "tech" },
+    { "sym": "META", "name": "Meta", "what": "Facebook Instagram และโฆษณาออนไลน์", "group": "tech" },
+    { "sym": "AVGO", "name": "Broadcom", "what": "ชิปเครือข่ายและชิป AI สั่งทำ", "group": "tech" },
+    { "sym": "TSM", "name": "TSMC", "what": "โรงงานผลิตชิปรายใหญ่ที่สุดของโลก", "group": "tech" },
+    { "sym": "AMD", "name": "AMD", "what": "ชิปคอมพิวเตอร์และชิป AI", "group": "tech" },
+    { "sym": "ASML", "name": "ASML", "what": "เครื่องจักรผลิตชิปขั้นสูง", "group": "tech" },
+    { "sym": "AAPL", "name": "Apple", "what": "iPhone และบริการ", "group": "tech" },
+    { "sym": "TSLA", "name": "Tesla", "what": "รถไฟฟ้า แบตเตอรี่ และหุ่นยนต์", "group": "tech" },
+    { "sym": "CRWD", "name": "CrowdStrike", "what": "ความปลอดภัยไซเบอร์บนคลาวด์", "group": "tech" },
+    { "sym": "NOW", "name": "ServiceNow", "what": "ซอฟต์แวร์จัดการงานองค์กร", "group": "tech" },
+    { "sym": "ANET", "name": "Arista Networks", "what": "อุปกรณ์เครือข่ายศูนย์ข้อมูล AI", "group": "tech" },
+    { "sym": "NET", "name": "Cloudflare", "what": "โครงข่ายและความปลอดภัยเว็บ", "group": "tech" },
+    { "sym": "DDOG", "name": "Datadog", "what": "ระบบเฝ้าดูสุขภาพซอฟต์แวร์บนคลาวด์", "group": "tech" },
+    { "sym": "SNOW", "name": "Snowflake", "what": "คลังข้อมูลบนคลาวด์", "group": "tech" },
+
+    { "sym": "RKLB", "name": "Rocket Lab", "what": "จรวดขนาดเล็กและดาวเทียม", "group": "future" },
+    { "sym": "SPCX", "name": "SpaceX", "what": "จรวด และอินเทอร์เน็ตดาวเทียม Starlink", "group": "future" },
+    { "sym": "ACHR", "name": "Archer Aviation", "what": "แท็กซี่บินไฟฟ้า", "group": "future" },
+    { "sym": "ONDS", "name": "Ondas", "what": "โดรนอัตโนมัติและเครือข่ายไร้สาย", "group": "future" },
+    { "sym": "ASTS", "name": "AST SpaceMobile", "what": "สัญญาณมือถือจากดาวเทียม", "group": "future" },
+    { "sym": "JOBY", "name": "Joby Aviation", "what": "แท็กซี่บินไฟฟ้า", "group": "future" },
+    { "sym": "IONQ", "name": "IonQ", "what": "คอมพิวเตอร์ควอนตัม", "group": "future" },
+    { "sym": "LUNR", "name": "Intuitive Machines", "what": "ยานลงดวงจันทร์และบริการอวกาศ", "group": "future" },
+    { "sym": "OKLO", "name": "Oklo", "what": "โรงไฟฟ้านิวเคลียร์ขนาดเล็ก", "group": "future" },
+
+    { "sym": "COST", "name": "Costco", "what": "ห้างค้าส่งแบบสมาชิก", "group": "stable" },
+    { "sym": "V", "name": "Visa", "what": "เครือข่ายชำระเงิน", "group": "stable" },
+    { "sym": "MA", "name": "Mastercard", "what": "เครือข่ายชำระเงิน", "group": "stable" },
+    { "sym": "LLY", "name": "Eli Lilly", "what": "ยา โดยเฉพาะยาลดน้ำหนักและเบาหวาน", "group": "stable" },
+    { "sym": "BRK-B", "name": "Berkshire Hathaway", "what": "บริษัทลงทุนของวอร์เรน บัฟเฟตต์", "group": "stable" },
+    { "sym": "JPM", "name": "JPMorgan Chase", "what": "ธนาคารใหญ่ที่สุดของสหรัฐฯ", "group": "stable" },
+    { "sym": "WMT", "name": "Walmart", "what": "ค้าปลีกรายใหญ่ที่สุดของโลก", "group": "stable" },
+
+    { "sym": "VOO", "name": "S&P 500 (VOO)", "what": "ตลาดรวม 500 บริษัทใหญ่สหรัฐฯ", "group": "bench" },
+    { "sym": "QQQ", "name": "Nasdaq 100 (QQQ)", "what": "100 บริษัทเทคฯ ใหญ่", "group": "bench" }
+  ]
+}
