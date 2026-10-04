@@ -3,13 +3,15 @@ import SpotlightCard from '../reactbits/SpotlightCard/SpotlightCard.tsx';
 import '../reactbits/SpotlightCard/SpotlightCard.css';
 import { isNew, judge, metricName } from '../lib/scoring.ts';
 import { toggleHidden, useStore } from '../store.ts';
-import { pct, share, thDate, thMonth, useJson, usd, type History, type Market, type Review } from '../data.ts';
+import { bigBuys, money, pct, share, thDate, thMonth, useJson, usd, type History, type InsiderFile, type Market, type Review } from '../data.ts';
 import { Gates, Logo, Spark } from '../ui.tsx';
 
 const GROUP_TH = { tech: 'เทคฯ / AI โตสูง', future: 'ธีมอนาคต เสี่ยงสูง', stable: 'บริษัทใหญ่มั่นคง', bench: 'ใช้เทียบผลงาน ไม่เสนอซื้อ' } as const;
 const host = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return 'แหล่งข่าว'; } };
 
-export function Stock({ market, sym, review }: { market: Market; sym: string; review: Review | null }) {
+const ROLE_TH: Record<string, string> = { Officer: 'ผู้บริหาร', Director: 'กรรมการ', 'Beneficial Owner (10% or more)': 'ผู้ถือหุ้นใหญ่' };
+
+export function Stock({ market, sym, review, insiders }: { market: Market; sym: string; review: Review | null; insiders: InsiderFile | null }) {
   const st = useStore();
   const t = market.by[sym];
   const [range, setRange] = useState<'1y' | '5y'>('1y');
@@ -25,6 +27,22 @@ export function Stock({ market, sym, review }: { market: Market; sym: string; re
   const r = review?.stocks[sym];
   const val = t.valuation;
   const hidden = st.hidden.includes(sym);
+  const ins = insiders?.stocks[sym];
+  const buys = (ins?.trades ?? []).filter((x) => x.side === 'B'), sells = (ins?.trades ?? []).filter((x) => x.side === 'S');
+  const sum = (a: typeof buys) => a.reduce((n, x) => n + x.usd, 0);
+  const big = bigBuys(ins?.trades);
+  // one line per person and direction: total money, how many trades, the latest date
+  const perPerson = (list: typeof buys) => {
+    const m = new Map<string, { name: string; role: string; side: 'B' | 'S'; usd: number; n: number; date: string; planned: boolean }>();
+    for (const x of list) {
+      const g = m.get(x.name) ?? { name: x.name, role: x.role, side: x.side, usd: 0, n: 0, date: x.date, planned: true };
+      g.usd += x.usd; g.n++; if (x.date > g.date) g.date = x.date; g.planned = g.planned && x.planned;
+      m.set(x.name, g);
+    }
+    return [...m.values()].sort((a, b) => b.usd - a.usd);
+  };
+  // the purchases that matter first, then the largest sellers
+  const shown = [...perPerson(big), ...perPerson(sells)].slice(0, 6);
 
   return (
     <>
@@ -96,6 +114,37 @@ export function Stock({ market, sym, review }: { market: Market; sym: string; re
           <p className="card mute">รอบล่าสุดยังไม่มีบทสรุปของหุ้นตัวนี้ (บทสรุปเขียนให้เฉพาะตัวที่ถืออยู่และตัวที่ผ่านเกณฑ์)</p>
         )}
       </section>
+
+      {t.group !== 'bench' && insiders && (
+        <section>
+          <h2><span>ผู้บริหารซื้อ/ขายหุ้นบริษัทตัวเอง</span><small>{insiders.days} วันล่าสุด</small></h2>
+          {!ins ? (
+            <p className="card mute">ไม่มีข้อมูลของหุ้นตัวนี้</p>
+          ) : !ins.trades.length ? (
+            <p className="card mute">ไม่มีรายการซื้อขายในตลาดช่วงนี้ (บริษัทที่จดทะเบียนนอกสหรัฐฯ บางแห่งไม่ต้องรายงาน)</p>
+          ) : (
+            <div className="card">
+              <div className="pair inner">
+                <div><small>ซื้อ {buys.length} รายการ</small><b className={big.length ? 'up' : ''}>${money(sum(buys))}</b></div>
+                <div><small>ขาย {sells.length} รายการ</small><b>${money(sum(sells))}</b></div>
+              </div>
+              {big.length > 0 && <p className="note good">มีการควักเงินตัวเองซื้อก้อนใหญ่ {big.length} รายการ — เป็นสัญญาณที่มีน้ำหนักกว่าการขาย</p>}
+              {buys.length > 0 && !big.length && <p className="sheet-sum">รายการซื้อเป็นก้อนเล็ก ๆ (ต่ำกว่า 1 แสนดอลลาร์) มักเป็นแผนซื้อหุ้นของพนักงาน ไม่ใช่การตัดสินใจลงทุน</p>}
+              {shown.map((x, n) => (
+                <div className="line" key={n}>
+                  <span><b>{x.name}</b> <span className="mute">{ROLE_TH[x.role] ?? x.role} · {x.n > 1 ? `${x.n} ครั้ง ล่าสุด ` : ''}{thDate(x.date)}{x.planned ? ' · ตามแผนล่วงหน้า' : ''}</span></span>
+                  <span className={`num ${x.side === 'B' ? 'up' : 'mute'}`} style={{ whiteSpace: 'nowrap' }}>{x.side === 'B' ? 'ซื้อ' : 'ขาย'} ${money(x.usd)}</span>
+                </div>
+              ))}
+              <a className="why" href={ins.url} target="_blank" rel="noreferrer noopener"><b>ดูทุกรายการที่ Nasdaq ↗</b></a>
+            </div>
+          )}
+          <p className="fine" style={{ marginTop: 10 }}>
+            ข้อมูลนี้เป็นเอกสารเปิดเผยตามกฎหมาย ไม่ใช่ข่าวลับ การขายเป็นเรื่องปกติ (จ่ายภาษี กระจายทรัพย์สิน หรือขายตามแผนที่ตั้งไว้ล่วงหน้า) จึงบอกอะไรได้น้อย
+            การซื้อด้วยเงินตัวเองก้อนใหญ่เกิดไม่บ่อยและมีความหมายกว่า แต่ก็ไม่ได้รับประกันว่าราคาจะขึ้น
+          </p>
+        </section>
+      )}
 
       <section>
         <a className="btn ghost" href={`https://finance.yahoo.com/quote/${t.sym}`} target="_blank" rel="noreferrer noopener">ดูข้อมูลเต็มที่ Yahoo Finance ↗</a>

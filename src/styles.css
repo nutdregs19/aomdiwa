@@ -207,3 +207,11 @@ dialog h3 { font-size: 20px; font-weight: 600; }
 p.card { font-size: 14px; }
 .why .clamp { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .why b { display: block; margin-top: 6px; font-weight: 500; }
+
+/* insider trades */
+.tag.green { color: var(--up); border-color: rgb(127 211 162 / 0.4); }
+.pair.inner { gap: 0; margin-bottom: 4px; }
+.pair.inner div { padding: 0 0 10px; }
+.pair.inner div + div { border-left: 1px solid var(--line); padding-left: 16px; }
+.note.good { background: rgb(127 211 162 / 0.1); border-color: rgb(127 211 162 / 0.25); margin: 4px 0 8px; }
+.line b { font-weight: 500; }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Aurora from './reactbits/Aurora/Aurora.tsx';
-import { useFx, useJson, useMarket, thDate, type Review } from './data.ts';
+import { useFx, useJson, useMarket, thDate, type InsiderFile, type Review } from './data.ts';
 import { rank, spendable, topPick } from './lib/scoring.ts';
 import { useStore } from './store.ts';
 import { syncAlerts } from './push.tsx';
@@ -36,6 +36,7 @@ export function App() {
   const route = useRoute();
   const { market, error } = useMarket();
   const review = useJson<Review>(market?.review ? `monthly/${market.review}.json` : null).data;
+  const insiders = useJson<InsiderFile>(market ? 'insiders.json' : null).data;
   const fx = useFx();
   const st = useStore();
   const [tab, arg] = route.split('/');
@@ -63,8 +64,8 @@ export function App() {
         {market && (
           tab === '' ? <Home market={market} fx={fx.rate} review={review} />
           : tab === 'port' ? <Portfolio market={market} fx={fx.rate} />
-          : tab === 'watch' ? <Watch market={market} />
-          : tab === 's' ? <Stock key={arg} market={market} sym={(arg ?? '').toUpperCase()} review={review} />
+          : tab === 'watch' ? <Watch market={market} insiders={insiders} />
+          : tab === 's' ? <Stock key={arg} market={market} sym={(arg ?? '').toUpperCase()} review={review} insiders={insiders} />
           : tab === 'log' ? <Log market={market} />
           : tab === 'set' ? <Settings market={market} />
           : <p className="empty">ไม่พบหน้านี้ <a href="#/" style={{ color: 'var(--brass)' }}>กลับหน้าแรก</a></p>

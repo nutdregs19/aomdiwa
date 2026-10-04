@@ -14,6 +14,13 @@ export interface Review {
 }
 export interface LogEntry { sym: string; date: string; price: number; voo: number | null; score: number }
 export interface History { d: string[]; c: number[] }
+export interface Trade { side: 'B' | 'S'; name: string; role: string; date: string; shares: number; usd: number; planned: boolean }
+export interface InsiderFile { updated: string; days: number; stocks: Record<string, { trades: Trade[]; url: string }> }
+
+/** A purchase that says something: own decision (not a scheduled plan) and real money. Small same-day buys by dozens of staff are payroll plans. */
+export const BIG_BUY = 100_000;
+export const bigBuys = (trades: Trade[] | undefined) => (trades ?? []).filter((t) => t.side === 'B' && !t.planned && t.usd >= BIG_BUY);
+export const money = (v: number) => (v >= 1e9 ? `${(v / 1e9).toFixed(1)} พันล้าน` : v >= 1e6 ? `${(v / 1e6).toFixed(1)} ล้าน` : v >= 1e3 ? `${Math.round(v / 1e3)} พัน` : String(Math.round(v)));
 
 const BASE = import.meta.env.BASE_URL + 'data/';
 const cache = new Map<string, Promise<any>>();

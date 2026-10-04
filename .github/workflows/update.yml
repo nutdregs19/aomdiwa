@@ -37,6 +37,11 @@ jobs:
         if: github.event_name != 'push'
         run: node scripts/fetch-data.ts
 
+      - name: ดึงรายการซื้อขายของผู้บริหาร
+        if: github.event_name != 'push'
+        continue-on-error: true
+        run: node scripts/fetch-insiders.ts
+
       # [skip ci] + the default token: this commit does not start another run
       - name: เก็บข้อมูลลง repo
         if: github.event_name != 'push'

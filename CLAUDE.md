@@ -17,6 +17,8 @@
 - `data-src/watchlist.json` รายชื่อเฝ้าดู (group: tech / future / stable / bench)
 - `scripts/fetch-data.ts` ดึง Yahoo (ราคา 5 ปี + งบ) → `public/data/market.json`, `signals.json`, `log.json` (สมุดพก), `h/<SYM>.json`
   รัน: `node scripts/fetch-data.ts` (Node 24 รัน .ts ตรง ๆ) · ดูตาราง: `node scripts/show.ts`
+- `scripts/fetch-insiders.ts` ผู้บริหารซื้อ/ขายหุ้นบริษัทตัวเอง 90 วัน (จาก Nasdaq) → `public/data/insiders.json` · รันในรอบรายวันด้วย (พังได้ไม่กระทบราคา)
+  ป้าย "ผู้บริหารซื้อ" = ซื้อเอง ≥ 1 แสนดอลลาร์ ไม่ใช่ตามแผน (`BIG_BUY` ใน `src/data.ts`) · **ไม่มีผลต่อคะแนน 3 ด่าน** แค่แสดงให้ดู
 - `scripts/build-review.mjs` รวมผลค้นข่าวเป็น `public/data/monthly/<YYYY-MM>.json` (ธงในไฟล์นี้มีผลตอน fetch-data รอบถัดไป)
 - `scripts/fetch-logos.mjs` โลโก้ → `public/logos/` · `scripts/add-reactbits.mjs` ดึงชิ้นส่วน React Bits → `src/reactbits/`
 - `src/lib/scoring.ts` สมองตัวเดียว (3 ด่าน, เพดาน, เงินสะสม) ใช้ร่วมทั้งสคริปต์และหน้าเว็บ · ทดสอบ: `npm test`
@@ -51,5 +53,5 @@
 ## ยังไม่ทำ / ยังไม่ได้ลอง
 - แจ้งเตือนบน iPhone จริง (เจ้าของต้องกดเปิดเอง)
 - routine วันที่ 1 บนคลาวด์
-- ข้อมูลผู้บริหารซื้อ/ขายหุ้น (SEC Form 4 — เจ้าของขอ เพราะเว็บ wethaiinvest มี "ข่าววงใน")
+- sec.gov ตอบ 403 ทุกแบบจากเครื่องนี้ (แม้ใส่ชื่อ+อีเมลตามกติกา) จึงใช้ Nasdaq แทน · ยังไม่ได้ลองว่า Nasdaq ตอบเครื่อง GitHub ไหม (ดูผลรอบรายวันรอบแรก)
 - ให้ผู้ใช้เพิ่มหุ้นนอกรายชื่อเอง (ตอนนี้ซ่อนได้อย่างเดียว เพิ่มต้องแก้ `watchlist.json`)
